@@ -1,0 +1,27 @@
+name: comment poem on pr
+on:
+  pull_request:
+  
+jobs:
+  example_comment_pr:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: Download poem file
+        run: curl -L -o poem.txt "https://poetrydb.org/title/patience/lines.text"
+
+      - name: comment message
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            Thank you for the pull request! We appreciate your contribution.
+            Remember, great things take time. Stay patient. Meanwhile, enjoy this poem! :wave:
+
+      - name: comment poem
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          filePath: poem.txt
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
